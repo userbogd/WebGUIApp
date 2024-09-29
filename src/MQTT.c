@@ -549,8 +549,8 @@ static void start_mqtt()
             mqtt_cfg.password = GetSysConf()->mqttStation[i].UserPass;
 #endif
             strcpy(tmp, GetSysConf()->mqttStation[i].ClientID);
-            strcat(tmp, "-");
-            strcat(tmp, GetSysConf()->ID);
+            //strcat(tmp, "-");
+            //strcat(tmp, GetSysConf()->ID);
 #if ESP_IDF_VERSION_MAJOR >= 5
             mqtt_cfg.credentials.client_id = tmp;
             mqtt_cfg.network.reconnect_timeout_ms = MQTT_RECONNECT_TIMEOUT * 1000;

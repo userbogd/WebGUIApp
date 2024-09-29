@@ -196,7 +196,7 @@ mqtt_app_err_t PublicTestMQTT(int idx)
 {
     char tmp[10];
     char resp[256];
-    char JSONMess[1024];
+    char* JSONMess = malloc(1024);
     struct jWriteControl jwc;
     jwOpen(&jwc, JSONMess, 1024 - 64, JW_OBJECT, JW_COMPACT);
     jwObj_object(&jwc, "data");
@@ -292,12 +292,16 @@ mqtt_app_err_t PublicTestMQTT(int idx)
         jwObj_string(&jwc, "signature", (char*) sha_print);
     }
     else
+        {
+        free(JSONMess);
         return ESP_ERR_NOT_FOUND;
+        }
 
     jwClose(&jwc);
     mqtt_app_err_t merr = API_OK;
     if (SysServiceMQTTSend(JSONMess, strlen(JSONMess), idx) != ESP_OK)
         merr = API_INTERNAL_ERR;
+    free(JSONMess);
     return merr;
 }
 
